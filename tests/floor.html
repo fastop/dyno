@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moving Floor</title>
+
+    <style>
+        * { padding: 0; margin: 0; }
+
+    body {
+        height: 100vh;
+        background-color: #544040;
+        display: flex;
+        align-items: center;
+    }
+
+    .content {
+        width: 920px; height: 280px; margin: 0 auto;
+        position: relative; 
+        background: linear-gradient(#b7d6c7, transparent) #ffe2d1;
+        transition: background-color 1s linear;
+        overflow: hidden; 
+    }
+
+
+    .ground {
+        width: 200%; height: 42px;
+        position: absolute; bottom: 0; left: 0;
+        background-image: url(../imgs/ground.png);
+        background-size: 50% 42px;
+    }
+
+
+
+    </style>
+
+</head>
+<body>
+
+ <div class="content">
+    <div class="ground"></div>
+ </div>
+
+
+
+
+
+<script>
+
+    suelo = document.querySelector(".ground");
+    content = document.querySelector(".content");
+
+    document.addEventListener("keydown", HandleKeyDown); //Agregamos evento de telcazo
+    
+
+    var move = 0;
+    var anim;
+
+
+    function MoverSuelo(pixel) {
+        move += pixel;
+        suelo.style.left = -( move % content.clientWidth) + "px";     
+    }
+
+    
+    function runAuto(){
+        console.log("asdasd");
+        
+        MoverSuelo(1);
+        anim = requestAnimationFrame(runAuto); 
+    }
+
+    function cancelLoop() {
+        cancelAnimationFrame(anim); 
+    }
+
+
+
+    function HandleKeyDown(ev){
+        if(ev.keyCode == 32 || ev.keyCode == 38){ //Space or Up
+            runAuto();
+        }
+
+        if(ev.keyCode ==37 ){ //Left          
+            cancelLoop();
+            MoverSuelo(1);
+        }
+
+        if(ev.keyCode == 39) { //Right 
+            cancelLoop();
+            MoverSuelo(-1);
+        }
+    }
+
+
+
+
+
+
+
+
+</script>
+
+
+    
+</body>
+</html>

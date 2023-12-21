@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moving Floor</title>
+
+    <style>
+        * { padding: 0; margin: 0; }
+
+    body {
+        height: 100vh;
+        background-color: #544040;
+        display: flex;
+        align-items: center;
+    }
+
+    .content {
+        width: 920px; height: 280px; margin: 0 auto;
+        position: relative; 
+        background: linear-gradient(#b7d6c7, transparent) #ffe2d1;
+        transition: background-color 1s linear;
+        overflow: hidden; 
+    }
+
+    .dino {
+            width: 84px; height: 84px; position: absolute;
+            bottom: 22px; left: 42px; z-index: 2;
+            background: url(../imgs/dino.png) repeat-x 0px 0px;
+            background-size: 336px 84px;
+            background-position-x: 0px;
+            background-color: black;
+    }
+
+    .dino-run { animation: animateDino 0.25s steps(2) infinite; }
+    .dino-crash { background-position-x: -252px; }
+        
+    @keyframes animateDino {
+        from { background-position-x: -84px; }
+        to { background-position-x: -252px;  }
+    }
+
+
+    </style>
+
+</head>
+<body>
+
+ <div class="content">
+    <div class="dino"></div>
+ </div>
+
+
+
+<script>
+
+
+
+
+var time = new Date();
+var deltaTime = 0;
+
+
+    if(document.readyState === "complete" || document.readyState === "interactive")
+        setTimeout(Init, 1); //Cuando la pagina este lista, nos lanzamos un tiempo para init    
+    else 
+        document.addEventListener("DOMContentLoaded", Init); //En cuanto cargue, agregamos el evento de Init
+    
+
+    function Init(){
+        time =  new Date();
+        // Start();
+        Loop();
+    }
+
+
+    function Loop(){
+        deltaTime = (new Date() - time ) / 1000; //Tiempo en segundos
+        time =  new Date(); //Obtememos el tiempo
+        runAuto(); //Actualizamos
+        requestAnimationFrame(Loop); //Tiramos el loop de esto
+    }
+
+
+
+
+
+
+
+
+
+
+    suelo = document.querySelector(".ground");
+    dino = document.querySelector(".dino");
+
+    document.addEventListener("keydown", HandleKeyDown); //Agregamos evento de telcazo
+     
+
+    var sueloY = 22;
+    var velY = 0;
+    var impulso  = 900;
+    var gravedad = 2500;
+    var deltaTime = 0;
+
+    var move = 0;
+    var anim;
+
+
+    var sueloY = 22;
+    var dinoPosX = 42;
+    var dinoPosY = sueloY;
+
+    var dino;
+    var parado = false;
+    var saltando = false;
+
+ 
+
+    function MoverDinosaurio(){
+
+        dinoPosY += velY * deltaTime;
+
+        if(dinoPosY < sueloY)
+            TocarSuelo(); //Si la posicion va debajo del suelo
+    
+        dino.style.bottom = dinoPosY+"px";
+    }
+    
+    
+    function TocarSuelo() {
+
+        dinoPosY = sueloY;
+        velY = 0;
+
+        if(saltando)            
+            dino.classList.add("dino-run");
+
+        saltando = false;
+    }
+
+
+
+    function jump(){
+        console.log("Brinca Puto");
+
+        console.log(dinoPosY+" - "+sueloY);
+        if(dinoPosY === sueloY){
+            saltando = true;
+            velY = impulso;
+            dino.classList.remove("dino-run"); //Eliminamos la clase
+        }
+    }
+
+
+
+
+
+      function runAuto(){
+
+        deltaTime = (new Date() - time ) / 1000; //Tiempo en segundos
+        time =  new Date(); //Obtememos el tiempo
+          
+          if(parado)  return; //Si esta parado, no sigas ...
+
+          MoverDinosaurio();
+          velY -= gravedad *  deltaTime;
+
+          anim = requestAnimationFrame(runAuto); 
+      }
+ //
+ //   function cancelLoop() {
+ //       cancelAnimationFrame(anim); 
+ //   }
+
+
+
+    function HandleKeyDown(ev){
+
+        if(ev.keyCode == 32 || ev.keyCode == 38){ //Space or Up
+          jump();
+        }
+
+        //if(ev.keyCode ==37 ){ //Left          
+        //    cancelLoop();
+        //    MoverSuelo(1);
+        //}
+
+        //if(ev.keyCode == 39) { //Right 
+        //    cancelLoop();
+        //    MoverSuelo(-1);
+        //}
+    }
+
+
+
+
+
+
+
+
+</script>
+
+
+    
+</body>
+</html>

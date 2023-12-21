@@ -143,6 +143,8 @@ var deltaTime = 0;
         sueloX += CalcularDesplazamiento();
         suelo.style.left = -(sueloX % contenedor.clientWidth) + "px";
 
+        console.log(-(sueloX % contenedor.clientWidth) + "px");
+
     }
 
     function CalcularDesplazamiento() {

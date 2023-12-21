@@ -43,7 +43,9 @@ body {
 
     background: url(imgs/dino.png) repeat-x 0px 0px;
     background-size: 336px 84px;
-    background-position-x: 0px;
+    background-position-x: 0px; 
+
+   /*  background-color: black;*/
 
 }
 
